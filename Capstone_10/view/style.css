@@ -1,0 +1,144 @@
+/* 기본 초기화 */
+body {
+  background-color: #09223d;   /* 전체 배경 어둡게 */
+  color: #f1f1f1;              /* 기본 글자색 밝게 */
+  font-family: "Pretendard", sans-serif;
+  margin: 0;
+  font-family: "Pretendard", sans-serif;
+}
+
+.main-header {
+  display: flex;
+  justify-content: space-between;  /* 왼쪽-오른쪽 구분 */
+  align-items: center;
+  padding: 15px 40px;
+  background-color: #0b2e53;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* 로고 */
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #f1f1f1;
+}
+
+a {
+  text-decoration: none;    /* 밑줄 제거 */
+  color: inherit;           /* 부모 요소 색상 상속 */
+}
+
+a:hover {
+  color: #f1f1f1;
+}
+
+/* 네비게이션 메뉴 */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 30px; /* 메뉴 간 간격 */
+}
+
+/* 일반 링크 스타일 */
+.nav-menu a {
+  text-decoration: none;
+  color: #f1f1f1;
+  font-size: 16px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-menu a:hover {
+  color: #f1f1f1;
+}
+
+/* 동영상 만들기 버튼 */
+.create-btn {
+  background-color: #f1f1f1;
+  border: none;
+  color: #0b2e53 !important;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.create-btn:hover {
+  background-color: #f1f1f1;
+}
+
+.create-btn a {
+  background-color: #f1f1f1;
+  border: none;
+  color: #0b2e53 !important;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.create-btn a:hover {
+  background-color: #f1f1f1;
+}
+
+.editor-container {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.video-section {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+video {
+  width: 100%;
+  max-width: 720px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.tools {
+  flex: 1;
+  background: #f1f1f1;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.tools button {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  background: #0b2e53;
+  color: #f1f1f1;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.tools button:hover {
+  background: #0b2e53;
+}
+
+footer {
+  position: fixed;     /* 고정 위치 */
+  bottom: 0;           /* 화면 맨 아래 */
+  left: 0;
+  width: 100%;         /* 전체 너비 */
+  background-color: #f1f1f1;
+  color: #0b2e53;
+  text-align: center;
+  padding: 1rem 0;
+  z-index: 100;        /* 다른 요소보다 위에 표시 */
+}
