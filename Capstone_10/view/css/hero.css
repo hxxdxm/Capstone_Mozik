@@ -1,0 +1,85 @@
+/* 메인페이지 레이아웃 */
+main {
+  display: flex;
+  justify-content: center;
+  min-height: calc(100vh - 80px - 60px); /* 헤더/푸터 뺀 높이 대충 */
+  text-align: center;
+  padding: 40px 16px;
+}
+
+/* hero 섹션 */
+.hero {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.hero-content h1 {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.hero-content h2 {
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  color: #d1e3ff;
+}
+
+.hero-content .desc {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #e5e5e5;
+  margin-bottom: 24px;
+}
+
+.hero-image {
+  width: 100%;
+  max-width: 480px;
+  border-radius: 12px;
+  margin: 0 auto 24px;
+  display: block;
+}
+
+/* 공통 버튼 스타일 (a.btn) */
+.btn {
+  width: 200px;
+  height: 50px;
+  line-height: 50px;
+  background-color: #f1f1f1;
+  color: #0b2e53;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  text-align: center;
+  display: inline-block;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  background-color: #e5e5e5;
+}
+
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 24px;
+  }
+
+  .hero-content h2 {
+    font-size: 18px;
+  }
+
+  .hero-content .desc {
+    font-size: 14px;
+  }
+
+  .hero-image {
+    max-width: 100%;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}

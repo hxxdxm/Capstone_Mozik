@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mozik | 동영상 편집기</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Mozik | Video Editor</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/editor.css">
 </head> 
 <body>
+  <!-- 공통 헤더 -->
   <header class="main-header">
     <div class="logo"><a href="index.html">Mozik</a></div>
 
@@ -14,30 +16,253 @@
       <a href="#features">주요기능</a>
       <a href="#contact">문의하기</a>
       <a href="#login">로그인/회원가입</a>
-      <button class="create-btn"><a href="VideoSelect.html">동영상 만들기</a></button>
+      <a class="create-btn" href="VideoSelect.html">동영상 만들기</a>
     </nav>
-  </header>    
-  <header>
-      <nav class="nav-menu">
-      <a>자막</a>
-      <a>서식</a>
-      <a>자막</a>
-      <a>파일</a>
-      <a>모자이크</a>
-      </nav>
   </header>
-  <main class="editor-container">
-    <section class="video-section">
-      <video id="videoPlayer" controls></video>
-      <input type="file" id="videoInput" accept="video/*">
-    </section>
 
-    <aside class="tools">
-      <h3>편집 도구</h3>
-      <button id="btnSave">내보내기</button>
-      <button id="btnMosaic">모자이크 처리</button>
-      <button id="btnTrim">자르기</button>
-    </aside>
-  </main>
+  <!-- 1. 에디터 네비게이션 -->
+  <div class="editor-nav">
+    <nav class="editor-nav-menu">
+      <button type="button">파일</button>
+      <button type="button">미디어</button>
+      <button type="button">텍스트</button>
+      <button type="button">효과</button>
+      <button type="button">모자이크</button>
+    </nav>
+  </div>
+
+  <div class="editor-main">
+    <!-- 2. 편집도구 | 동영상 재생 영역 -->
+    <main class="editor-layout">
+      <!-- 왼쪽: 편집 도구 패널 -->
+      <aside class="editor-tools">
+        <!-- 상단 탭 -->
+        <div class="tool-tabs">
+          <button class="tool-tab-btn active" data-tab="media">미디어</button>
+          <button class="tool-tab-btn" data-tab="audio">오디오</button>
+          <button class="tool-tab-btn" data-tab="subtitle">자막</button>
+        </div>
+
+        <!-- 하단: 왼쪽 도구 리스트 + 오른쪽 툴 상세 -->
+        <div class="tool-body">
+          <!-- 왼쪽: 현재 탭의 도구들 -->
+          <div class="tool-list" data-tool-group="media">
+            <h4 class="tool-list-title">미디어 도구</h4>
+            <button class="tool-list-btn active" data-tool="media-import">미디어 불러오기</button>
+            <button class="tool-list-btn" data-tool="blur-tool">블러 도구</button>
+            <!-- 추후 도구 추가 가능 -->
+          </div>
+
+          <!-- 오디오 / 자막 탭용 도구 리스트는 나중에 추가해도 됨 -->
+          <!--
+          <div class="tool-list" data-tool-group="audio" hidden>...</div>
+          <div class="tool-list" data-tool-group="subtitle" hidden>...</div>
+          -->
+
+          <!-- 오른쪽: 선택된 도구의 상세 UI -->
+          <div class="tool-panel">
+            <!-- 미디어 불러오기 툴 -->
+            <div class="tool-panel-content active" data-tool-panel="media-import">
+              <h4 class="tool-panel-title">미디어</h4>
+
+              <!-- 상단 툴바(필터/검색 등 나중에 채워도 됨) -->
+              <div class="media-toolbar">
+                <button type="button" class="media-toolbar-btn">가져오기</button>
+                <button type="button" class="media-toolbar-btn">녹화</button>
+                <!-- 필요하면 버튼 더 추가 -->
+              </div>
+
+              <!-- 미디어 카드 그리드 -->
+              <div class="media-grid" id="mediaGrid">
+                <!-- 첫 번째 카드: 미디어 가져오기 -->
+                <label class="media-card media-card-add">
+                  <input type="file" id="mediaInput" accept="video/*,audio/*" multiple hidden>
+                  <div class="media-add-icon">+</div>
+                  <div class="media-card-title">미디어 가져오기</div>
+                </label>
+
+                <!-- JS가 카드 추가 가능 -->
+              </div>
+            </div>
+
+
+            <!-- 블러 도구 툴 (모자이크/얼굴 탐지 UI) -->
+            <div class="tool-panel-content" data-tool-panel="blur-tool">
+              <h4 class="tool-panel-title">블러 도구</h4>
+
+              <!-- ② 블러 강도 -->
+              <section class="blur-section">
+                <div class="blur-section-header">
+                  <span> 블러 강도</span>
+                </div>
+                <div class="blur-slider-row">
+                  <input type="range" min="0" max="100" value="50" class="blur-slider">
+                </div>
+              </section>
+
+              <!-- ③ 자동 얼굴 모자이크 -->
+              <section class="blur-section">
+                <div class="blur-section-header">
+                  <span> 자동 얼굴 모자이크</span>
+                </div>
+                <label class="checkbox-row">
+                  <input type="checkbox" checked>
+                  <span>전체 프레임 자동 탐지</span>
+                </label>
+              </section>
+
+              <!-- ④ 탐지된 얼굴 (현재 프레임) -->
+              <section class="blur-section">
+                <div class="blur-section-header with-actions">
+                  <span> 탐지된 얼굴 (현재 프레임)</span>
+                  <div class="blur-section-actions">
+                    <button type="button" class="mini-btn">현재 프레임 모두 선택</button>
+                    <button type="button" class="mini-btn">현재 프레임 모두 해제</button>
+                  </div>
+                </div>
+
+                <div class="face-grid">
+                  <!-- 예시용 더미 얼굴 카드들 (나중에 JS로 교체 가능) -->
+                  <div class="face-card">
+                    <div class="face-thumb">Face 1</div>
+                    <button type="button" class="face-exclude-btn">이 얼굴 전체 제외</button>
+                  </div>
+                  <div class="face-card">
+                    <div class="face-thumb">Face 2</div>
+                    <button type="button" class="face-exclude-btn">이 얼굴 전체 제외</button>
+                  </div>
+                  <div class="face-card">
+                    <div class="face-thumb">Face 3</div>
+                    <button type="button" class="face-exclude-btn">이 얼굴 전체 제외</button>
+                  </div>
+                  <!-- 필요하면 더 추가 -->
+                </div>
+              </section>
+
+              <!-- ⑤ 추가 블러 프레임 (수동) -->
+              <section class="blur-section">
+                <div class="blur-section-header">
+                  <span> 추가 블러 프레임 (수동)</span>
+                </div>
+                <div class="blur-buttons-row">
+                  <button type="button" class="mini-btn">프레임 추가</button>
+                  <button type="button" class="mini-btn">마지막 삭제</button>
+                  <button type="button" class="mini-btn">전체 삭제</button>
+                </div>
+              </section>
+
+              <!-- ⑥ 모자이크 제외 대상 (영상 전체) -->
+              <section class="blur-section">
+                <div class="blur-section-header">
+                  <span> 모자이크 제외 대상 (영상 전체)</span>
+                </div>
+                <div class="exclude-list-box">
+                  <ul class="exclude-list" id="excludeList">
+                    <!-- 예: "Face 1", "Face 3" 같은 항목들 -->
+                  </ul>
+                </div>
+                <div class="blur-buttons-row">
+                  <button type="button" class="mini-btn">선택 삭제</button>
+                  <button type="button" class="mini-btn">전체 삭제</button>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+
+      <!-- 가운데: 세로 리사이저 -->
+      <div class="editor-resizer-vertical"></div>
+
+      <!-- 오른쪽: 동영상 재생 / 미리보기 -->
+      <section class="editor-preview">
+        <div class="preview-header">
+         
+        </div>
+
+        <div class="preview-player">
+          <!-- 🔹 아무 영상도 선택 안 했을 때 보이는 영역 -->
+          <div class="preview-empty" id="previewEmpty">
+            <div class="preview-empty-top">
+              <span>플레이어</span>
+              <select class="preview-quality">
+                <option>전체 품질</option>
+              </select>
+            </div>
+
+            <div class="preview-empty-middle">
+              <!-- 그냥 빈 회색 영역 느낌 → 나중에 아이콘 넣어도 됨 -->
+            </div>
+
+            <div class="preview-empty-bottom">
+              <div class="preview-progress-bar">
+                <div class="preview-progress-fill"></div>
+              </div>
+              <div class="preview-time-row">
+                <span>00:00:00</span>
+                <span>/ 00:00:00</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 🔹 실제 영상이 있을 때 보이는 비디오 -->
+          <video id="videoPlayer" class="preview-video hidden" controls></video>
+        </div>
+      </section>
+    </main>
+
+    <!-- 위아래 사이 가로 리사이저 -->
+    <div class="editor-resizer-horizontal"></div>
+
+    <!-- 3. 재생 & 편집 바 (타임라인) -->
+    <section class="editor-timeline">
+      <!-- 상단 컨트롤 -->
+      <div class="timeline-toolbar">
+        <button type="button">⏯</button>
+        <button type="button">+</button>
+        <button type="button">-</button>
+      </div>
+
+      <!-- 메인 타임라인 영역 -->
+      <div class="timeline-main">
+        <div class="timeline-main-inner">
+          <!-- 시간 눈금 -->
+          <div class="time-ruler">
+            <div class="time-mark">0:00</div>
+            <div class="time-mark">0:10</div>
+            <div class="time-mark">0:20</div>
+            <div class="time-mark">0:30</div>
+            <div class="time-mark">0:40</div>
+            <div class="time-mark">0:50</div>
+            <div class="time-mark">1:00</div>
+            <div class="time-mark">1:10</div>
+            <div class="time-mark">1:20</div>
+            <div class="time-mark">1:30</div>
+          </div>
+
+          <!-- 트랙들 (비디오 / 오디오) -->
+          <div class="timeline-tracks">
+            <!-- 비디오 트랙 -->
+            <div class="track">
+              <div class="track-label">비디오 1</div>
+              <div class="track-content"></div>
+            </div>
+
+            <!-- 오디오 트랙 (예시) -->
+            <div class="track">
+              <div class="track-label">오디오 1</div>
+              <div class="track-content"></div>
+            </div>
+          </div>
+
+          <!-- 재생 헤드(빨간 세로선 같은 역할) -->
+          <div class="playhead"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

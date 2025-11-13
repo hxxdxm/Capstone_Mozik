@@ -1,3 +1,16 @@
+/* 공통 초기화 + 반응형 기본 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
 /* 기본 초기화 */
 body {
   background-color: #09223d;   /* 전체 배경 어둡게 */
@@ -68,96 +81,11 @@ a:hover {
   transition: background 0.2s;
 }
 
-.create-btn:hover {
+.create-btn :hover {
   background-color: #f1f1f1;
-}
-
-.create-btn a {
-  background-color: #f1f1f1;
-  border: none;
-  color: #0b2e53 !important;
-  font-size: 15px;
-  font-weight: bold;
-  padding: 10px 20px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.create-btn a:hover {
-  background-color: #f1f1f1;
-}
-
-/* 메인페이지 */
-main {
-  display: flex;
-  justify-content: center; /* 가로 가운데 */
-  min-height: 100vh;       /* 화면 전체 높이 */
-  text-align: center;      /* 안쪽 텍스트 중앙 정렬 */
-}
-
-.editor-container {
-  display: flex;
-  gap: 2rem;
-  padding: 2rem;
-}
-
-.video-section {
-  flex: 3;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-video {
-  width: 100%;
-  max-width: 720px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
-}
-
-.btn {
-  width: 200px;       /* 버튼 너비 고정 */
-  height: 50px;       /* 버튼 높이 고정 */
-  line-height: 50px;  /* 글자를 세로 중앙정렬 */
-  background-color: #f1f1f1;
-  color: #0b2e53;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 16px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.tools {
-  flex: 1;
-  background: #f1f1f1;
-  border-radius: 10px;
-  padding: 1.5rem;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
-}
-
-.tools button {
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 10px;
-  background: #0b2e53;
-  color: #f1f1f1;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.tools button:hover {
-  background: #0b2e53;
 }
 
 footer {
-  position: fixed;     /* 고정 위치 */
   bottom: 0;           /* 화면 맨 아래 */
   left: 0;
   width: 100%;         /* 전체 너비 */
@@ -166,4 +94,39 @@ footer {
   text-align: center;
   padding: 1rem 0;
   z-index: 100;        /* 다른 요소보다 위에 표시 */
+}
+
+/* 비디오선택 창 */
+.select-main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 80px - 60px); /* 헤더/푸터 제외한 부분 대략 */
+}
+
+@media (max-width: 768px) {
+  .main-header {
+    padding: 10px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .nav-menu {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .nav-menu a {
+    font-size: 14px;
+  }
+
+  .create-btn {
+    padding: 8px 14px;
+    font-size: 14px;
+  }
 }

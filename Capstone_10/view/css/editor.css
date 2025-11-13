@@ -1,0 +1,762 @@
+body {
+  min-height: 100vh;
+}
+
+/* ===== 0. 에디터 전체 높이 관리 (고정 버전) ===== */
+.editor-main {
+  display: flex;
+  flex-direction: column;           /* 위: 편집 / 가운데: 리사이저 / 아래: 타임라인 */
+  height: calc(100vh - 120px);      /* 헤더 + 네비 높이만큼 빼준 값 (상황 보고 조정 가능) */
+  min-height: 0;
+  overflow: hidden;                 /* 넘치는 부분 잘라서 리사이저가 밖으로 안 나가게 */
+}
+
+/* ===== 1. 에디터 상단 네비게이션 ===== */
+.editor-nav {
+  background-color: #0b2e53;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.editor-nav-menu {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  gap: 16px;
+  padding: 8px 16px;
+  justify-content: flex-start;
+}
+
+.editor-nav-menu button {
+  background: transparent;
+  border: none;
+  color: #f1f1f1;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+.editor-nav-menu button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ===== 2. 편집도구 | 동영상 미리보기 레이아웃 ===== */
+.editor-layout {
+  display: flex;
+  gap: 0;
+  padding: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  flex: 0 0 auto;        /* 더 이상 flex: 1 1 auto 아니고, JS가 비율 지정 */
+  min-height: 220px;
+}
+
+/* 왼쪽 편집 도구 패널 */
+.editor-tools {
+  flex: 0 0 700px;                 /* 기본 폭 260px (JS에서 flex-basis 변경) */
+  background: #0f2842;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.3);
+}
+
+/* ========== 편집 도구 영역 3분할 레이아웃 ========== */
+
+/* editor-tools 전체를 세로 flex로 */
+.editor-tools {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* 상단 탭 버튼 줄 */
+.tool-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.tool-tab-btn {
+  flex: 1 1 0;
+  padding: 6px 8px;
+  font-size: 13px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  background: transparent;
+  color: #e5e7eb;
+  cursor: pointer;
+}
+.tool-tab-btn.active {
+  background: #36509b;
+  border-color: #36509b;
+}
+
+/* 하단 영역: 왼쪽 리스트 + 오른쪽 패널 */
+.tool-body {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  gap: 8px;
+}
+
+/* 왼쪽 도구 리스트 */
+.tool-list {
+  flex: 0 0 140px;
+  max-width: 160px;
+  background: #07172a;
+  border-radius: 8px;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tool-list-title {
+  margin: 0 0 6px;
+  font-size: 13px;
+  color: #cbd5f5;
+}
+
+.tool-list-btn {
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  font-size: 13px;
+  border-radius: 6px;
+  border: none;
+  background: #0b2e53;
+  color: #f9fafb;
+  cursor: pointer;
+}
+.tool-list-btn.active {
+  background: #36509b;
+}
+
+/* 오른쪽 툴 상세 패널 */
+.tool-panel {
+  flex: 1 1 auto;
+  background: #08192b;
+  border-radius: 8px;
+  padding: 10px 12px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.tool-panel-title {
+  margin: 0 0 8px;
+  font-size: 14px;
+  color: #e5e7eb;
+}
+
+/* 툴 상세 내부 공통 섹션 스타일 */
+.tool-panel-content {
+  display: none;
+}
+.tool-panel-content.active {
+  display: block;
+}
+
+.blur-section {
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  border-radius: 6px;
+  padding: 6px 8px;
+  margin-bottom: 8px;
+  background: #0b2238;
+}
+
+.blur-section-header {
+  font-size: 12px;
+  margin-bottom: 4px;
+  color: #e5e7eb;
+}
+
+.blur-section-header.with-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.blur-section-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.blur-slider-row {
+  padding: 4px 0;
+}
+.blur-slider {
+  width: 100%;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #e5e7eb;
+}
+
+/* 미니 버튼들 (프레임 추가 / 선택 삭제 등) */
+.mini-btn {
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: #0b2e53;
+  color: #f9fafb;
+  cursor: pointer;
+}
+
+/* 얼굴 그리드 */
+.face-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.face-card {
+  background: #020617;
+  border-radius: 4px;
+  padding: 4px;
+  text-align: center;
+  font-size: 11px;
+  color: #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.face-thumb {
+  width: 100%;
+  height: 70px;
+  background: #111827;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+}
+
+.face-exclude-btn {
+  padding: 4px 4px;
+  font-size: 11px;
+  border-radius: 4px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: #374151;
+  color: #f9fafb;
+  cursor: pointer;
+}
+
+/* 추가 블러 프레임 / 모자이크 제외 영역 버튼 줄 */
+.blur-buttons-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+/* 모자이크 제외 리스트 */
+.exclude-list-box {
+  margin-top: 4px;
+  border-radius: 4px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: #020617;
+  height: 80px;
+  overflow-y: auto;
+}
+
+.exclude-list {
+  list-style: none;
+  margin: 0;
+  padding: 4px 6px;
+}
+
+/* 미디어 불러오기 패널 */
+.media-import-actions {
+  margin-bottom: 8px;
+}
+
+.btn-outline {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px dashed #677396;
+  color: #d1e3ff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.media-list {
+  border-radius: 6px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: #020617;
+  padding: 6px 8px;
+}
+
+.media-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #e5e7eb;
+  margin-bottom: 4px;
+}
+
+.media-clear-btn {
+  border: none;
+  background: transparent;
+  color: #93c5fd;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.media-list-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.media-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+  font-size: 12px;
+  color: #e5e7eb;
+  border-bottom: 1px solid rgba(31, 41, 55, 0.8);
+}
+.media-item:last-child {
+  border-bottom: none;
+}
+
+.media-name {
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.media-add-timeline-btn {
+  border: 1px solid #677396;
+  background: #677396;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  color: #f9fafb;
+  cursor: pointer;
+}
+
+.editor-tools h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 15px;
+}
+
+.editor-tools button {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  background: #0b2e53;
+  color: #f1f1f1;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.editor-tools button:hover {
+  background: #123b6e;
+}
+
+/* ===== 미디어 불러오기 카드 그리드 ===== */
+
+.media-toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.media-toolbar-btn {
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: #0b2e53;
+  color: #f9fafb;
+  cursor: pointer;
+}
+
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 8px;
+}
+
+/* 공통 카드 */
+.media-card {
+  position: relative;
+  height: 90px;
+  border-radius: 6px;
+  background: radial-gradient(circle at top left, #172554, #020617);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 6px;
+  box-sizing: border-box;
+  font-size: 11px;
+  color: #e5e7eb;
+  overflow: hidden;
+}
+
+/* 첫 번째: 미디어 가져오기 카드 */
+.media-card-add {
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: #020617;
+}
+
+.media-add-icon {
+  font-size: 26px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.media-card-title {
+  font-size: 11px;
+}
+
+/* 실제 미디어 카드(썸네일+이름) */
+.media-thumb {
+  flex: 1 1 auto;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #1f2937, #111827);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.media-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+}
+
+/* 우측 상단 재생 시간 배지 */
+.media-duration {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 10px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* 우측 하단 + 버튼 (타임라인 추가) */
+.media-add-timeline {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: #1d4ed8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* 파일 이름 */
+.media-name {
+  flex: 1 1 auto;
+  font-size: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 오른쪽 미리보기 영역 */
+.editor-preview {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.preview-header {
+  font-size: 14px;
+  color: #cbd5f5;
+}
+
+/* 빈 상태/실제 비디오 공통 영역 */
+.preview-player {
+  background: #000;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+/* 실제 비디오 숨길 때 사용 */
+.hidden {
+  display: none;
+}
+
+/* === 비디오 없을 때 플레이어 UI === */
+.preview-empty {
+  display: flex;
+  flex-direction: column;
+  height: 260px; /* 필요하면 조절 */
+  background: #111827;
+  color: #e5e7eb;
+  font-size: 12px;
+}
+
+/* 상단: 플레이어 / 품질 선택 */
+.preview-empty-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  background: #020617;
+}
+
+.preview-quality {
+  background: #020617;
+  border: 1px solid #4b5563;
+  border-radius: 4px;
+  font-size: 11px;
+  color: #e5e7eb;
+  padding: 2px 6px;
+}
+
+/* 중간: 회색 화면 영역 */
+.preview-empty-middle {
+  flex: 1 1 auto;
+  background: #111827;
+}
+
+/* 하단: 타임라인 느낌 */
+.preview-empty-bottom {
+  padding: 6px 10px 8px;
+  background: #020617;
+}
+
+.preview-progress-bar {
+  width: 100%;
+  height: 4px;
+  border-radius: 999px;
+  background: #374151;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.preview-progress-fill {
+  width: 20%;
+  height: 100%;
+  background: #22c55e;
+}
+
+.preview-time-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+/* 실제 비디오에도 높이 맞춰주기(선택사항) */
+.preview-video {
+  width: 100%;
+  height: 260px;  /* preview-empty와 맞춰주면 자연스럽게 전환됨 */
+  object-fit: contain;
+  background: #000;
+}
+
+.preview-upload {
+  margin-top: 4px;
+}
+
+.upload-box {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px dashed #7ea6ff;
+  color: #d1e3ff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* 가운데 세로 리사이저 (좌/우 폭 조절용) */
+.editor-resizer-vertical {
+  width: 4px;
+  cursor: col-resize;
+  background: rgba(255, 255, 255, 0.15);
+}
+.editor-resizer-vertical:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* ===== 3. 가로 리사이저 + 타임라인 ===== */
+
+/* 위/아래 사이 가로 리사이저 */
+.editor-resizer-horizontal {
+  height: 4px;
+  flex: 0 0 4px;                   /* 높이 고정 */
+  cursor: row-resize;
+  background: rgba(255, 255, 255, 0.15);
+}
+.editor-resizer-horizontal:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* 타임라인 전체 (기본 높이) */
+.editor-timeline {
+  flex: 0 0 auto;                 /* 기본 타임라인 높이 */
+  min-height: 140px;               /* 너무 얇아지는 거 방지 */
+  border-top: 1px solid rgba(0, 0, 0, 0.6);
+  background: #061524;
+  padding: 8px 16px 16px;
+  box-sizing: border-box;
+}
+
+/* 상단 타임라인 툴바 */
+.timeline-toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.timeline-toolbar button {
+  background: #0b2e53;
+  border: none;
+  color: #f1f1f1;
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.timeline-toolbar button:hover {
+  background: #123b6e;
+}
+
+/* 타임라인 메인 영역 (눈금 + 트랙 + 플레이헤드) */
+.timeline-main {
+  margin: 0;
+  background: #0b1a2b;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 6px 10px 10px;
+  position: relative;              /* playhead 기준 */
+  box-sizing: border-box;
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* 타임라인 실제 내용은 최소 너비 */
+.timeline-main-inner {
+  min-width: 800px;
+}
+
+/* 시간 눈금 */
+.time-ruler {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  font-size: 11px;
+  color: #9ca3af;
+  margin-bottom: 6px;
+  position: relative;
+}
+
+.time-mark {
+  position: relative;
+  padding-top: 6px;
+}
+
+.time-mark::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* 트랙 영역 */
+.timeline-tracks {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.track {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  align-items: center;
+  font-size: 12px;
+  color: #e5e7eb;
+}
+
+.track-label {
+  padding-right: 8px;
+  text-align: right;
+  color: #9ca3af;
+}
+
+.track-content {
+  height: 32px;
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 6px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 플레이헤드 (재생 위치 세로선) */
+.playhead {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #f97373;
+  left: 10%;
+  pointer-events: none;
+}
+
+/* ===== 4. 반응형 (태블릿 이하) ===== */
+@media (max-width: 1024px) {
+  .editor-main {
+    height: auto;                  /* 작은 화면에서는 스크롤 허용 */
+  }
+
+  .editor-layout {
+    flex-direction: column;
+    min-height: 260px;
+  }
+
+  .editor-tools,
+  .editor-preview {
+    width: 100%;
+  }
+
+  .editor-preview {
+    order: 1;
+  }
+
+  .editor-tools {
+    order: 2;
+  }
+}
