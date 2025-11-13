@@ -493,6 +493,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  min-height: 0;              /* 세로 flex 안에서 넘치지 않게 */
 }
 
 .preview-header {
@@ -500,36 +501,35 @@ body {
   color: #cbd5f5;
 }
 
-/* 빈 상태/실제 비디오 공통 영역 */
+/* 플레이어 전체 틀 */
 .preview-player {
-  background: #000;
+  flex: 1 1 auto;             /* 오른쪽 영역을 세로로 꽉 채우기 */
+  display: flex;
+}
+
+.preview-shell {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   border-radius: 10px;
   overflow: hidden;
+  background: #020617;
   box-shadow: 0 0 10px rgba(0,0,0,0.4);
 }
 
-/* 실제 비디오 숨길 때 사용 */
-.hidden {
-  display: none;
-}
-
-/* === 비디오 없을 때 플레이어 UI === */
-.preview-empty {
-  display: flex;
-  flex-direction: column;
-  height: 260px; /* 필요하면 조절 */
-  background: #111827;
-  color: #e5e7eb;
-  font-size: 12px;
-}
-
-/* 상단: 플레이어 / 품질 선택 */
-.preview-empty-top {
+/* 상단 바 (플레이어 / 품질 선택) */
+.preview-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 6px 10px;
   background: #020617;
+  font-size: 12px;
+  color: #e5e7eb;
+}
+
+.preview-title {
+  font-size: 12px;
 }
 
 .preview-quality {
@@ -541,31 +541,38 @@ body {
   padding: 2px 6px;
 }
 
-/* 중간: 회색 화면 영역 */
-.preview-empty-middle {
+/* 가운데: 비디오 들어가는 영역 */
+.preview-middle {
+  position: relative;
   flex: 1 1 auto;
   background: #111827;
 }
 
-/* 하단: 타임라인 느낌 */
-.preview-empty-bottom {
+/* 비디오 없을 때 회색 placeholder */
+.preview-placeholder {
+  position: absolute;
+  inset: 0;
+  background: #111827;
+}
+
+/* 실제 비디오: 가운데 영역에 꽉 차게 */
+.preview-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+
+/* 하단: 재생바 + 시간 표시 */
+.preview-bottom {
   padding: 6px 10px 8px;
   background: #020617;
 }
 
-.preview-progress-bar {
+.preview-seek {
   width: 100%;
-  height: 4px;
-  border-radius: 999px;
-  background: #374151;
-  overflow: hidden;
-  margin-bottom: 4px;
-}
-
-.preview-progress-fill {
-  width: 20%;
-  height: 100%;
-  background: #22c55e;
 }
 
 .preview-time-row {
@@ -576,12 +583,51 @@ body {
   color: #9ca3af;
 }
 
-/* 실제 비디오에도 높이 맞춰주기(선택사항) */
-.preview-video {
-  width: 100%;
-  height: 260px;  /* preview-empty와 맞춰주면 자연스럽게 전환됨 */
-  object-fit: contain;
-  background: #000;
+/* 재생바 아래 컨트롤 + 시간줄 */
+.preview-bottom-row {
+  margin-top: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 왼쪽 컨트롤 아이콘들 */
+.preview-controls {
+  display: flex;
+  gap: 6px;
+}
+
+.preview-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-btn:hover {
+  background: rgba(148, 163, 184, 0.15);
+  color: #e5e7eb;
+}
+
+/* 시간은 오른쪽 정렬 */
+.preview-time-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+/* 숨김용 유틸 */
+.hidden {
+  display: none !important;
 }
 
 .preview-upload {

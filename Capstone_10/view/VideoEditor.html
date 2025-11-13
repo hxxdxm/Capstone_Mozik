@@ -182,33 +182,55 @@
         </div>
 
         <div class="preview-player">
-          <!-- 🔹 아무 영상도 선택 안 했을 때 보이는 영역 -->
-          <div class="preview-empty" id="previewEmpty">
-            <div class="preview-empty-top">
-              <span>플레이어</span>
+          <div class="preview-shell">
+            <!-- 상단 바 -->
+            <div class="preview-top">
+              <span class="preview-title">플레이어</span>
               <select class="preview-quality">
                 <option>전체 품질</option>
               </select>
             </div>
 
-            <div class="preview-empty-middle">
-              <!-- 그냥 빈 회색 영역 느낌 → 나중에 아이콘 넣어도 됨 -->
+            <!-- 가운데: 실제 비디오가 들어갈 영역 -->
+            <div class="preview-middle">
+              <div class="preview-placeholder" id="previewPlaceholder">
+                <!-- 빈 상태일 때의 회색 화면 느낌 -->
+              </div>
+              <video id="videoPlayer" class="preview-video"></video>
             </div>
 
-            <div class="preview-empty-bottom">
-              <div class="preview-progress-bar">
-                <div class="preview-progress-fill"></div>
-              </div>
-              <div class="preview-time-row">
-                <span>00:00:00</span>
-                <span>/ 00:00:00</span>
+            <!-- 하단: 재생바 + 시간 -->
+            <div class="preview-bottom">
+              <!-- 재생바 -->
+              <input
+                type="range"
+                id="previewSeek"
+                min="0"
+                max="100"
+                value="0"
+                class="preview-seek"
+              >
+
+              <!-- 사진으로 아이콘 바꿔야함 -->
+              <div class="preview-bottom-row">
+                <div class="preview-controls">
+                  <button type="button" class="preview-btn" data-action="jump-start">⏮</button>
+                  <button type="button" class="preview-btn" data-action="step-back">⏪</button>
+                  <button type="button" class="preview-btn" data-action="play-pause">▶</button>
+                  <button type="button" class="preview-btn" data-action="stop">⏹</button>
+                  <button type="button" class="preview-btn" data-action="step-forward">⏩</button>
+                </div>
+
+                <div class="preview-time-row">
+                  <span id="previewCurrent">00:00:00</span>
+                  <span>/</span>
+                  <span id="previewDuration">00:00:00</span>
+                </div>
               </div>
             </div>
           </div>
-
-          <!-- 🔹 실제 영상이 있을 때 보이는 비디오 -->
-          <video id="videoPlayer" class="preview-video hidden" controls></video>
         </div>
+
       </section>
     </main>
 
