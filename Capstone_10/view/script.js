@@ -20,8 +20,11 @@ window.addEventListener("DOMContentLoaded", () => {
   const timelineMain = document.querySelector(".timeline-main");
   const playhead = document.querySelector(".playhead");
   const firstVideoTrackContent = document.querySelector(
-    ".timeline-tracks .track .track-content"
+    '.timeline-tracks .track-row[data-track="video1"] .track-content'
   );
+
+  const timeRuler = document.querySelector(".time-ruler");
+  const timelineInner = document.querySelector(".timeline-main-inner");
 
   // 미디어 패널용
   const mediaInput = document.getElementById("mediaInput");      // 미디어 가져오기 input
@@ -48,10 +51,45 @@ window.addEventListener("DOMContentLoaded", () => {
     if (previewPlaceholder) previewPlaceholder.classList.add("hidden");
   }
 
+  // ===== 타임라인 눈금 동적 생성 =====
+  function buildTimelineRuler(durationSec) {
+    if (!timeRuler || !timelineInner) return;
+
+    // 10초 단위 or 5초 단위 등을 영상 길이에 따라 조절
+    let step = 10; // 기본 10초
+    if (durationSec <= 60) step = 5;        // 1분 이하 → 5초 단위
+    if (durationSec >= 600) step = 30;      // 10분 이상 → 30초 단위
+
+    const totalMarks = Math.floor(durationSec / step) + 1;
+
+    // 기존 눈금 삭제
+    timeRuler.innerHTML = "";
+
+    for (let i = 0; i <= totalMarks; i++) {
+      const sec = i * step;
+      const m = Math.floor(sec / 60);
+      const s = String(sec % 60).padStart(2, "0");
+      const mark = document.createElement("div");
+      mark.className = "time-mark";
+      mark.textContent = `${m}:${s}`;
+      timeRuler.appendChild(mark);
+    }
+
+    // grid 컬럼 개수를 눈금 수에 맞게 조정
+    timeRuler.style.gridTemplateColumns = `repeat(${totalMarks + 1}, 1fr)`;
+
+    // 영상 길이에 따라 타임라인 너비도 늘려주기 (스크롤 가능)
+    const basePerMark = 80; // 눈금 하나당 80px 정도
+    const minWidth = Math.max(800, (totalMarks + 1) * basePerMark);
+    timelineInner.style.minWidth = minWidth + "px";
+  }
+
   // ===== 3. 비디오 로드 / 재생 상태와 플레이어 UI 연동 =====
   if (videoPlayer) {
     videoPlayer.addEventListener("loadedmetadata", () => {
-      if (durationLabel) durationLabel.textContent = formatTime(videoPlayer.duration);
+      const dur = videoPlayer.duration || 0;
+      if (durationLabel) durationLabel.textContent = formatTime(dur);
+      buildTimelineRuler(dur);
     });
 
     videoPlayer.addEventListener("timeupdate", () => {

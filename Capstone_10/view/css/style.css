@@ -106,6 +106,77 @@ footer {
   min-height: calc(100vh - 80px - 60px); /* 헤더/푸터 제외한 부분 대략 */
 }
 
+/* ===== 동영상 선택: 좌우 큰 버튼 ===== */
+
+.select-main {
+  height: calc(100vh - 120px); /* 헤더 + 푸터 제외 */
+  display: flex !important;    /* 🔥 flex 강제 */
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+.select-buttons-row {
+  display: flex !important;    /* 🔥 flex 강제 */
+  flex-direction: row !important; /* 🔥 가로 정렬 강제 */
+  justify-content: center;
+  align-items: center;
+  gap: 40px;                   /* 버튼 사이 간격 */
+  width: 100%;
+  max-width: 900px;
+}
+
+/* 큰 버튼 공통 */
+.big-btn {
+  flex: 1 1 0;
+  max-width: 350px;
+  height: 180px;
+  
+  display: flex !important;    /* 🔥 혹시라도 block 덮어쓰면 막기 */
+  align-items: center;
+  justify-content: center;
+
+  font-size: 22px;
+  font-weight: 600;
+
+  background: #0d233c;
+  color: #dce7ff;
+  border: 2px solid #1e3a5f;
+  border-radius: 18px;
+
+  text-decoration: none;
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+/* Hover 효과 */
+.big-btn:hover {
+  background: #173765;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* 강조 버튼 (새 프로젝트) */
+.big-btn.primary {
+  background: #36509b;
+  border-color: #36509b;
+  color: #ffffff;
+}
+
+.big-btn.primary:hover {
+  background: #4f65a7;
+}
+
+/* (옵션) 화면 좁을 때만 세로로 바꾸고 싶으면 이거 추가
+@media (max-width: 700px) {
+  .select-buttons-row {
+    flex-direction: column !important;
+  }
+}
+*/
+
 @media (max-width: 768px) {
   .main-header {
     padding: 10px 16px;

@@ -246,42 +246,43 @@
         <button type="button">-</button>
       </div>
 
-      <!-- 메인 타임라인 영역 -->
-      <div class="timeline-main">
-        <div class="timeline-main-inner">
-          <!-- 시간 눈금 -->
-          <div class="time-ruler">
-            <div class="time-mark">0:00</div>
-            <div class="time-mark">0:10</div>
-            <div class="time-mark">0:20</div>
-            <div class="time-mark">0:30</div>
-            <div class="time-mark">0:40</div>
-            <div class="time-mark">0:50</div>
-            <div class="time-mark">1:00</div>
-            <div class="time-mark">1:10</div>
-            <div class="time-mark">1:20</div>
-            <div class="time-mark">1:30</div>
+      <!-- 본문: 왼쪽 트랙 목록 + 오른쪽 스크롤 타임라인 -->
+      <div class="timeline-body">
+        <!-- 왼쪽: 트랙 이름 / 버튼들 (스크롤 안 됨) -->
+        <div class="timeline-track-list">
+          <div class="track-label-row" data-track="video1">
+            <span class="track-label-title">비디오 1</span>
+            <!-- 나중에 눈/음소거 아이콘 넣을 자리 -->
           </div>
+          <div class="track-label-row" data-track="audio1">
+            <span class="track-label-title">오디오 1</span>
+          </div>
+        </div>
 
-          <!-- 트랙들 (비디오 / 오디오) -->
-          <div class="timeline-tracks">
-            <!-- 비디오 트랙 -->
-            <div class="track">
-              <div class="track-label">비디오 1</div>
-              <div class="track-content"></div>
-            </div>
+        <!-- 오른쪽: 실제 타임라인 (스크롤 영역) -->
+        <div class="timeline-scroll">
+          <div class="timeline-main">
+            <div class="timeline-main-inner">
+              <!-- 시간 눈금: JS가 채움 -->
+              <div class="time-ruler"></div>
 
-            <!-- 오디오 트랙 (예시) -->
-            <div class="track">
-              <div class="track-label">오디오 1</div>
-              <div class="track-content"></div>
+              <!-- 트랙들 -->
+              <div class="timeline-tracks">
+                <div class="track-row" data-track="video1">
+                  <div class="track-content"></div>
+                </div>
+                <div class="track-row" data-track="audio1">
+                  <div class="track-content"></div>
+                </div>
+              </div>
+
+              <!-- 재생헤드 -->
+              <div class="playhead"></div>
             </div>
           </div>
-
-          <!-- 재생 헤드(빨간 세로선 같은 역할) -->
-          <div class="playhead"></div>
         </div>
       </div>
+      
     </section>
   </div>
 

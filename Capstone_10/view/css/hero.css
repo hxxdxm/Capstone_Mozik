@@ -45,8 +45,8 @@ main {
   width: 200px;
   height: 50px;
   line-height: 50px;
-  background-color: #f1f1f1;
-  color: #0b2e53;
+  background-color: #36509b;
+  color: #ffffff;
   border: none;
   border-radius: 8px;
   font-weight: 600;
@@ -59,7 +59,7 @@ main {
 
 .btn:hover {
   transform: translateY(-2px);
-  background-color: #e5e5e5;
+  background-color: #5268aa;
 }
 
 @media (max-width: 768px) {

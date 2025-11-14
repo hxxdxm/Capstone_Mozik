@@ -667,16 +667,6 @@ body {
   background: rgba(255, 255, 255, 0.4);
 }
 
-/* 타임라인 전체 (기본 높이) */
-.editor-timeline {
-  flex: 0 0 auto;                 /* 기본 타임라인 높이 */
-  min-height: 140px;               /* 너무 얇아지는 거 방지 */
-  border-top: 1px solid rgba(0, 0, 0, 0.6);
-  background: #061524;
-  padding: 8px 16px 16px;
-  box-sizing: border-box;
-}
-
 /* 상단 타임라인 툴바 */
 .timeline-toolbar {
   display: flex;
@@ -696,6 +686,147 @@ body {
 
 .timeline-toolbar button:hover {
   background: #123b6e;
+}
+
+/* 타임라인 전체 (기본 높이) */
+.editor-timeline {
+  flex: 0 0 auto;
+  min-height: 140px;
+  border-top: 1px solid rgba(0, 0, 0, 0.6);
+  background: #061524;
+  padding: 8px 16px 16px;
+  box-sizing: border-box;
+}
+
+/* 본문: 왼쪽 트랙 / 오른쪽 스크롤 타임라인 */
+.timeline-body {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+
+/* 왼쪽 트랙 목록 (고정) */
+.timeline-track-list {
+  flex: 0 0 120px;             /* 트랙 이름 영역 너비 */
+  display: flex;
+  flex-direction: column;
+  background: #050b12;
+  border-radius: 8px 0 0 8px;
+  padding: 6px 0;
+  box-sizing: border-box;
+}
+
+.track-label-row {
+  height: 40px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: #e5e7eb;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.9);
+}
+
+.track-label-row:last-child {
+  border-bottom: none;
+}
+
+.track-label-title {
+  flex: 1 1 auto;
+}
+
+/* 오른쪽 스크롤 영역 */
+.timeline-scroll {
+  flex: 1 1 auto;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* 타임라인 메인 영역 (눈금 + 트랙 + 플레이헤드) */
+.timeline-main {
+  margin: 0;
+  background: #0b1a2b;
+  border-radius: 0 8px 8px 0;  /* 오른쪽만 둥글게 */
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 6px 10px 10px;
+  position: relative;
+  box-sizing: border-box;
+  min-width: 100%;
+}
+
+/* 안쪽 실제 타임라인 너비 (JS가 min-width 조절) */
+.timeline-main-inner {
+  min-width: 800px;
+}
+
+/* 시간 눈금 */
+.time-ruler {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr); /* JS에서 변경 */
+  font-size: 11px;
+  color: #9ca3af;
+  margin-bottom: 6px;
+  position: relative;
+}
+
+.time-mark {
+  position: relative;
+  padding-top: 6px;
+}
+
+.time-mark::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* 트랙 영역 (가로 타임라인) */
+.timeline-tracks {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.track-row {
+  height: 40px;
+}
+
+/* 실제 트랙 내용 (클립이 올라가는 부분) */
+.track-content {
+  height: 100%;
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 6px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 아무 클립도 없을 때 표시 (1번 스샷 느낌) */
+.track-content:empty::before {
+  content: "미디어를 여기로 드래그하여 동영상을 생성하세요.";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: #64748b;
+  border: 1px dashed rgba(148, 163, 184, 0.6);
+  border-radius: 6px;
+}
+
+/* 플레이헤드 (재생 위치 세로선) */
+.playhead {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #f97373;
+  left: 0;
+  pointer-events: none;
 }
 
 /* 타임라인 메인 영역 (눈금 + 트랙 + 플레이헤드) */
@@ -741,35 +872,7 @@ body {
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* 트랙 영역 */
-.timeline-tracks {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
 
-.track {
-  display: grid;
-  grid-template-columns: 80px 1fr;
-  align-items: center;
-  font-size: 12px;
-  color: #e5e7eb;
-}
-
-.track-label {
-  padding-right: 8px;
-  text-align: right;
-  color: #9ca3af;
-}
-
-.track-content {
-  height: 32px;
-  background: rgba(15, 23, 42, 0.9);
-  border-radius: 6px;
-  border: 1px solid rgba(148, 163, 184, 0.4);
-  position: relative;
-  overflow: hidden;
-}
 
 /* 플레이헤드 (재생 위치 세로선) */
 .playhead {
