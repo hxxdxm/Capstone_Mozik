@@ -872,8 +872,6 @@ body {
   background: rgba(255, 255, 255, 0.2);
 }
 
-
-
 /* 플레이헤드 (재생 위치 세로선) */
 .playhead {
   position: absolute;

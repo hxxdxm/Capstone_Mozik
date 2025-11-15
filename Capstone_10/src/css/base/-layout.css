@@ -1,0 +1,122 @@
+/* 공통 초기화 + 반응형 기본 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 기본 초기화 */
+body {
+  background-color: #09223d;   /* 전체 배경 어둡게 */
+  color: #f1f1f1;              /* 기본 글자색 밝게 */
+  font-family: "Pretendard", sans-serif;
+  margin: 0;
+  font-family: "Pretendard", sans-serif;
+}
+
+/* 헤더 */
+.main-header {
+  display: flex;
+  justify-content: space-between;  /* 왼쪽-오른쪽 구분 */
+  align-items: center;
+  padding: 15px 40px;
+  background-color: #0b2e53;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* 동영상 만들기 버튼 */
+.create-btn {
+  background-color: #f1f1f1;
+  border: none;
+  color: #0b2e53 !important;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.create-btn :hover {
+  background-color: #f1f1f1;
+}
+
+
+/* 네비게이션 메뉴*/
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 30px; /* 메뉴 간 간격 */
+}
+
+/* 일반 링크 스타일 */
+.nav-menu a {
+  text-decoration: none;
+  color: #f1f1f1;
+  font-size: 16px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-menu a:hover {
+  color: #f1f1f1;
+}
+
+/* 로고 */
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #f1f1f1;
+}
+
+a {
+  text-decoration: none;    /* 밑줄 제거 */
+  color: inherit;           /* 부모 요소 색상 상속 */
+}
+
+a:hover {
+  color: #f1f1f1;
+}
+
+/* 푸터 */
+footer {
+  bottom: 0;           /* 화면 맨 아래 */
+  left: 0;
+  width: 100%;         /* 전체 너비 */
+  background-color: #f1f1f1;
+  color: #0b2e53;
+  text-align: center;
+  padding: 1rem 0;
+  z-index: 100;        /* 다른 요소보다 위에 표시 */
+}
+
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 24px;
+  }
+
+  .hero-content h2 {
+    font-size: 18px;
+  }
+
+  .hero-content .desc {
+    font-size: 14px;
+  }
+
+  .hero-image {
+    max-width: 100%;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}

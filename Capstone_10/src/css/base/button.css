@@ -1,0 +1,43 @@
+
+
+/* 큰 버튼*/
+.big-btn {
+  flex: 1 1 0;
+  max-width: 350px;
+  height: 180px;
+  
+  display: flex !important;    /* 혹시라도 block 덮어쓰면 막기 */
+  align-items: center;
+  justify-content: center;
+
+  font-size: 22px;
+  font-weight: 600;
+
+  background: #0d233c;
+  color: #dce7ff;
+  border: 2px solid #1e3a5f;
+  border-radius: 18px;
+
+  text-decoration: none;
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.big-btn:hover {
+  background: #173765;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* 강조 버튼 */
+.big-btn.primary {
+  background: #36509b;
+  border-color: #36509b;
+  color: #ffffff;
+}
+
+.big-btn.primary:hover {
+  background: #4f65a7;
+}
+

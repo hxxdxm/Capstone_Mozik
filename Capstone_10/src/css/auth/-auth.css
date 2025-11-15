@@ -1,0 +1,149 @@
+/* ===== 로그인 / 회원가입 공통 레이아웃 ===== */
+
+.auth-main {
+  height: calc(100vh - 120px); /* 헤더+푸터 제외한 높이 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+  box-sizing: border-box;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: radial-gradient(circle at top left, #12325c, #071427);
+  border-radius: 18px;
+  padding: 28px 26px;
+  color: #f9fafb;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.6);
+  box-sizing: border-box;
+}
+
+.auth-title {
+  margin: 0 0 20px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+/* 입력 필드 */
+.auth-form {
+  margin: 0;
+}
+
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+
+
+.auth-field label {
+  font-size: 13px;
+  color: #cbd5f5;
+}
+
+.auth-field input {
+  padding: 9px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.8);
+  background: rgba(15, 23, 42, 0.9);
+  color: #f9fafb;
+  font-size: 14px;
+  outline: none;
+}
+
+.auth-field input::placeholder {
+  color: #6b7280;
+}
+
+.auth-field input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.45);
+}
+
+/* 로그인 상태 유지 / 비번 찾기 */
+.auth-extra-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.auth-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #cbd5f5;
+}
+
+.auth-checkbox input {
+  accent-color: #38bdf8;
+}
+
+.auth-link-btn {
+  border: none;
+  background: transparent;
+  color: #93c5fd;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+}
+.auth-link-btn:hover {
+  text-decoration: underline;
+}
+
+/* 로그인 버튼 */
+.auth-submit-btn {
+  width: 100%;
+  margin-top: 4px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: none;
+  background: #38bdf8;
+  color: #031525;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+}
+
+.auth-submit-btn:hover {
+  background: #0ea5e9;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(8, 47, 73, 0.7);
+}
+
+.auth-link-btn {
+  border: none;
+  background: transparent;
+  color: #93c5fd;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+}
+.auth-link-btn:hover {
+  text-decoration: underline;
+}
+
+/* 로그인 하단 텍스트 */
+.auth-helper-text {
+  margin-top: 12px;
+  font-size: 12px;
+  color: #cbd5f5;
+  text-align: center;
+}
+
+/* 모바일 여백 조정 */
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 22px 18px;
+    border-radius: 14px;
+  }
+
+  .auth-title {
+    font-size: 20px;
+  }
+}

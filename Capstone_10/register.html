@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mozik | 회원가입</title>
+  <link rel="stylesheet" href="src/css/home/-auth.css">
+  <link rel="stylesheet" href="src/css/base/-layout.css">
+</head>
+<body>
+  <!-- 공통 헤더 -->
+  <header class="main-header">
+    <div class="logo"><a href="index.html">Mozik</a></div>
+
+    <nav class="nav-menu">
+      <a href="index.html#features">주요기능</a>
+      <a href="index.html#contact">문의하기</a>
+      <a href="login.html">로그인</a>
+      <a class="create-btn" href="VideoSelect.html">동영상 만들기</a>
+    </nav>
+  </header>
+
+  <!-- 메인 -->
+  <main class="auth-main">
+    <section class="auth-card">
+      <h1 class="auth-title">회원가입</h1>
+
+      <form class="auth-form">
+        <div class="auth-field">
+          <label for="signup-name">이름</label>
+          <input type="text" id="signup-name" placeholder="이름을 입력하세요" required>
+        </div>
+
+        <div class="auth-field">
+          <label for="signup-email">이메일</label>
+          <input type="email" id="signup-email" placeholder="example@mozik.com" required>
+        </div>
+
+        <div class="auth-field">
+          <label for="signup-password">비밀번호</label>
+          <input type="password" id="signup-password" placeholder="8자 이상 입력" required>
+        </div>
+
+        <div class="auth-field">
+          <label for="signup-password2">비밀번호 확인</label>
+          <input type="password" id="signup-password2" placeholder="다시 한 번 입력" required>
+        </div>
+
+        <div class="auth-field">
+          <label for="signup-password2">인증번호</label>
+          <input type="password" id="signup-password2" placeholder="다시 한 번 입력" required>
+        </div>
+
+        <button type="submit" class="auth-submit-btn">회원가입</button>
+
+        <p class="auth-helper-text">
+          이미 계정이 있나요?
+          <a href="Login.html" class="auth-link-btn">로그인 하기</a>
+        </p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Copyright © 2025 Mozik. All rights reserved.</p>
+  </footer>
+</body>
+</html>
