@@ -4,19 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mozik | Main</title>
-  <link rel="stylesheet" href="src/css/home/-main.css">
-  <link rel="stylesheet" href="src/css/base/-layout.css">
+    <link rel="stylesheet" href = "{{ url_for('static', filename='css/main.css')}}">
+    <link rel="stylesheet" href = "{{ url_for('static', filename='css/layout.css')}}">
 </head> 
 </head> 
 <body> 
 <!-------header------->
   <header class="main-header">
-    <a class="logo"href="index.html">Mozik</a>
+    <a class="logo"href="index">Mozik</a>
 
     <nav class="nav-menu">
       <a href="#features">주요기능</a>
-      <a href="login.html">로그인/회원가입</a>
-      <a class="create-btn" href="VideoSelect.html">동영상 만들기</a>
+      <a href="login">로그인/회원가입</a>
+      <a class="create-btn" href="videoSelect">동영상 만들기</a>
     </nav>
   </header>
 
@@ -31,7 +31,7 @@
         사용자는 필요한 항목만 선택하여 빠르고 정확하게 모자이크 처리를 할 수 있습니다.
       </p>
       <img src="images/ai-vision.png" alt="AI 영상 분석 예시" class="hero-image">
-      <a href="VideoSelect.html" class="btn">지금 시작하기</a>
+      <a href="videoSelect" class="btn">지금 시작하기</a>
     </div>
   </section>
   </main>
@@ -41,6 +41,5 @@
     <p>Copyright © 2025 Mozik. All rights reserved.</p>
   </footer>
 
-  <script src="script.js"></script>
 </body>
 </html>

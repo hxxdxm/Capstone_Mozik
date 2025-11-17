@@ -4,19 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mozik | 로그인</title>
-    <link rel="stylesheet" href="src/css/home/-auth.css">
-    <link rel="stylesheet" href="src/css/base/-layout.css">
+    <link rel="stylesheet" href = "{{ url_for('static', filename='css/auth.css')}}">
+    <link rel="stylesheet" href = "{{ url_for('static', filename='css/layout.css')}}">
 </head>
 <body>
   <!-- 공통 헤더 -->
   <header class="main-header">
-    <div class="logo"><a href="index.html">Mozik</a></div>
+    <div class="logo"><a href="index">Mozik</a></div>
 
     <nav class="nav-menu">
       <a href="index.html#features">주요기능</a>
-      <a href="index.html#contact">문의하기</a>
-      <a href="login.html">로그인</a>
-      <a class="create-btn" href="VideoSelect.html">동영상 만들기</a>
+      <a href="login">로그인</a>
+      <a class="create-btn" href="videoSelect">동영상 만들기</a>
     </nav>
   </header>
 

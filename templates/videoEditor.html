@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mozik | Video Editor</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', path='css/layout.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', path='css/editor.css') }}">
+</head>
+<body>
+  <!-- 공통 헤더는 생략 or 기존 내용 넣기 -->
+
+  <!-- 에디터 네비 -->
+  <div class="editor-nav">
+    <nav class="editor-nav-menu">
+      <button type="button">파일</button>
+      <button type="button">미디어</button>
+      <button type="button">텍스트</button>
+      <button type="button">효과</button>
+      <button type="button">모자이크</button>
+    </nav>
+  </div>
+
+  <div class="editor-main">
+    <main class="editor-layout">
+      <!-- 왼쪽 도구 패널 -->
+      <aside class="editor-tools">
+        <div class="tool-tabs">
+          <button class="tool-tab-btn active" data-tab="media">미디어</button>
+          <button class="tool-tab-btn" data-tab="audio">오디오</button>
+          <button class="tool-tab-btn" data-tab="subtitle">자막</button>
+        </div>
+
+        <div class="tool-body">
+          <!-- 왼쪽 도구 리스트 -->
+          <div class="tool-list" data-tool-group="media">
+            <h4 class="tool-list-title">미디어 도구</h4>
+            <button class="tool-list-btn active" data-tool="media-import">미디어 불러오기</button>
+            <button class="tool-list-btn" data-tool="blur-tool">블러 도구</button>
+          </div>
+
+          <!-- 오른쪽 패널 -->
+          <div class="tool-panel">
+            <!-- (1) 미디어 불러오기 -->
+            <div class="tool-panel-content active" data-tool-panel="media-import">
+              <h4 class="tool-panel-title">미디어</h4>
+
+              <!-- ★ FastAPI로 업로드 보내는 폼 -->
+              <form action="/media/upload" method="post" enctype="multipart/form-data">
+                <div class="media-toolbar">
+                  <label class="media-toolbar-btn">
+                    파일 선택
+                    <input type="file" name="media_files" accept="video/*,audio/*" multiple hidden>
+                  </label>
+                  <button type="submit" class="media-toolbar-btn">업로드</button>
+                </div>
+              </form>
+
+              <!-- 서버에서 받은 media_list로 카드 렌더 -->
+              <div class="media-grid" id="mediaGrid">
+                {% for media in media_list %}
+                  <div class="media-card">
+                    <div class="media-thumb">🎬</div>
+                    <div class="media-meta">
+                      <span class="media-name" title="{{ media.filename }}">{{ media.filename }}</span>
+                    </div>
+                    <div class="media-duration">
+                      {{ media.duration if media.duration else "00:00" }}
+                    </div>
+                    <!-- ★ 클릭하면 미리보기에서 재생할 때 쓸 URL -->
+                    <button
+                      type="button"
+                      class="media-add-timeline"
+                      data-media-url="{{ media.url }}"
+                    >
+                      +
+                    </button>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+
+            <!-- (2) 블러 도구 패널 (기존 UI 그대로) -->
+            <div class="tool-panel-content" data-tool-panel="blur-tool">
+              <h4 class="tool-panel-title">블러 도구</h4>
+
+              <section class="blur-section">
+                <div class="blur-section-header">
+                  <span>블러 강도</span>
+                </div>
+                <div class="blur-slider-row">
+                  <input type="range" min="0" max="100" value="50" class="blur-slider" name="blur_strength">
+                </div>
+              </section>
+
+              <section class="blur-section">
+                <div class="blur-section-header">
+                  <span>자동 얼굴 모자이크</span>
+                </div>
+                <label class="checkbox-row">
+                  <input type="checkbox" checked name="auto_face_blur">
+                  <span>전체 프레임 자동 탐지</span>
+                </label>
+              </section>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <div class="editor-resizer-vertical"></div>
+
+      <!-- 오른쪽: 미리보기 -->
+      <section class="editor-preview">
+        <div class="preview-player">
+          <div class="preview-shell">
+            <div class="preview-top">
+              <span class="preview-title">플레이어</span>
+              <select class="preview-quality">
+                <option>전체 품질</option>
+              </select>
+            </div>
+
+            <div class="preview-middle">
+              <div class="preview-placeholder" id="previewPlaceholder"></div>
+              <video id="videoPlayer" class="preview-video"></video>
+            </div>
+
+            <div class="preview-bottom">
+              <input
+                type="range"
+                id="previewSeek"
+                min="0"
+                max="100"
+                value="0"
+                class="preview-seek"
+              >
+              <div class="preview-bottom-row">
+                <div class="preview-controls">
+                  <button type="button" class="preview-btn" data-action="jump-start">⏮</button>
+                  <button type="button" class="preview-btn" data-action="step-back">⏪</button>
+                  <button type="button" class="preview-btn" data-action="play-pause">▶</button>
+                  <button type="button" class="preview-btn" data-action="stop">⏹</button>
+                  <button type="button" class="preview-btn" data-action="step-forward">⏩</button>
+                </div>
+
+                <div class="preview-time-row">
+                  <span id="previewCurrent">00:00:00</span>
+                  <span>/</span>
+                  <span id="previewDuration">00:00:00</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 위아래 사이 가로 리사이저 --> 
+    <div class="editor-resizer-horizontal"></div> 
+
+    <!-- 3. 재생 & 편집 바 (타임라인) --> 
+    <section class="editor-timeline"> 
+      <!-- 상단 컨트롤 --> 
+      <div class="timeline-toolbar"> 
+        <button type="button">⏯</button> 
+        <button type="button">+</button> 
+        <button type="button">-</button> 
+      </div> 
+      <!-- 본문: 왼쪽 트랙 목록 + 오른쪽 스크롤 타임라인 --> 
+      <div class="timeline-body"> 
+        <!-- 왼쪽: 트랙 이름 / 버튼들 (스크롤 안 됨) --> 
+        <div class="timeline-track-list"> 
+          <div class="track-label-row" data-track="video1"> 
+            <span class="track-label-title">비디오 1</span> 
+            <!-- 나중에 눈/음소거 아이콘 넣을 자리 --> 
+          </div> 
+          <div class="track-label-row" data-track="audio1"> 
+            <span class="track-label-title">오디오 1</span> 
+          </div> 
+        </div> 
+        <!-- 오른쪽: 실제 타임라인 (스크롤 영역) --> 
+        <div class="timeline-scroll"> 
+          <div class="timeline-main"> 
+              <div class="timeline-main-inner"> 
+                <!-- 시간 눈금: JS가 채움 --> 
+                <div class="time-ruler"></div> 
+                    
+                <!-- 트랙들 --> 
+                <div class="timeline-tracks"> 
+                  <div class="track-row" data-track="video1"> 
+                    <div class="track-content"></div> 
+                  </div> 
+                  <div class="track-row" data-track="audio1"> 
+                    <div class="track-content"></div> 
+                  </div> 
+                </div> 
+                <!-- 재생헤드 --> 
+                <div class="playhead"></div> 
+              </div> 
+            </div> 
+          </div> 
+        </div>
+    </section>
+  </div>
+
+  <script src="{{ url_for('static', path='js/editor.js') }}"></script>
+</body>
+</html>

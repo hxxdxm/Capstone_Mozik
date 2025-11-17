@@ -4,26 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mozik | VidioSelect</title>
-  <link rel="stylesheet" href="src/css/home/-select.css">
-  <link rel="stylesheet" href="src/css/base/-layout.css">
+    <link rel="stylesheet" href = "{{ url_for('static', filename='css/select.css')}}">
+    <link rel="stylesheet" href = "{{ url_for('static', filename='css/layout.css')}}">
 </head> 
 <body> 
 <!-------header------->
   <header class="main-header">
-    <a class="logo" href="index.html">Mozik</a>
+    <a class="logo" href="index">Mozik</a>
 
     <nav class="nav-menu">
       <a href="#features">주요기능</a>
-      <a href="#contact">문의하기</a>
-      <a href="#login">로그인/회원가입</a>
-      <a class="create-btn" href="VideoSelect.html">동영상 만들기</a>
+      <a href="login.html">로그인/회원가입</a>
+      <a class="create-btn" href="videoSelect">동영상 만들기</a>
     </nav>
   </header>
 
 <!-------메인페이지------->
   <main class="select-main">
     <div class="select-buttons-row">
-      <a href="VideoEditor.html" class="big-btn primary">새 프로젝트 만들기</a>
+      <a href="videoEditor" class="big-btn primary">새 프로젝트 만들기</a>
       <a href="#" class="big-btn">프로젝트 열기</a>
     </div>
   </main>
@@ -34,6 +33,5 @@
     <p>Copyright © 2025 Mozik. All rights reserved.</p>
   </footer>
 
-  <script src="script.js"></script>
 </body>
 </html>
